@@ -54,4 +54,18 @@ contract Airline{
         msg.sender.transfer(etherToRefund);
         customer.loyaltyPoints = 0;
     }
+
+    function getRefundableEther() public view returns (uint){
+        return etherPerPoint * customers[msg.sender].loyaltyPoints;
+    }
+
+    function getAirlineBalance() public isOwner view returns (uint) {
+        address airlineAddress = this;
+        return airlineAddress.balance;
+    }
+
+    modifier isOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 }
