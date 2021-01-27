@@ -14,6 +14,8 @@ contract Airline{
         uint256 price;
     }
 
+    uint etherPerPoint = 0.5 ether;
+
     Flight[] public flights;
 
     mapping(address => Customer) public customers;
@@ -40,5 +42,16 @@ contract Airline{
         customersTotalFlights[msg.sender] ++;
 
         FlightPurchased(msg.sender, flight.price);
+    }
+
+    function totalFlights() public view returns (uint) {
+        return flights.length;
+    }
+
+    function redeemLoyaltyPoints() public {
+        Customer storage customer = customers[msg.sender];
+        uint etherToRefund = etherPerPoint * customer.loyaltyPoints;
+        msg.sender.transfer(etherToRefund);
+        customer.loyaltyPoints = 0;
     }
 }
