@@ -36,4 +36,20 @@ contract('Airline', accounts => {
         catch (e) { return; }
         assert.fail();
     });
+
+    it('should get the real balance of the contract', async() => {
+
+        let flight = await instance.flights(0);
+        let price = flight[1];
+
+        let flight2 = await instance.flights(1);
+        let price2 = flight2[1];
+
+        await instance.buyFlight(0, { from: accounts[0], value: price});
+        await instance.buyFlight(1, { from: accounts[0], value: price2});
+
+        let newAirlineBalance = await instance.getAirlineBalance();
+
+        assert.equal(newAirlineBalance.toNumber(), price.toNumber() + price2.toNumber());
+    });
 });
