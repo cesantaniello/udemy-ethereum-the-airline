@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Panel from "./Panel";
 import getWeb3 from "./getWeb3";
+import AirlineContract from "./airline";
 
 export class App extends Component {
 
@@ -13,6 +14,9 @@ export class App extends Component {
 
     async componentDidMount(){
         this.web3 = await getWeb3();
+        this.airline = await AirlineContract(this.web3.currentProvider);
+
+        console.log(this.airline.buyFlight);
 
         var account = (await this.web3.eth.getAccounts())[0];
         
