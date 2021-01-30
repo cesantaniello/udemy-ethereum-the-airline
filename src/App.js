@@ -16,8 +16,6 @@ export class App extends Component {
         this.web3 = await getWeb3();
         this.airline = await AirlineContract(this.web3.currentProvider);
 
-        console.log(this.airline.buyFlight);
-
         var account = (await this.web3.eth.getAccounts())[0];
         
         this.setState({
