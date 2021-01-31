@@ -16,7 +16,8 @@ export class App extends Component {
         super(props);
         this.safe = {
             balance: 0,
-            account: undefined
+            account: undefined,
+            flights: []
         };
     }
 
@@ -25,7 +26,7 @@ export class App extends Component {
         this.toEther = converter(this.web3);
         this.airline = await AirlineContract(this.web3.currentProvider);
         this.airlineService = new AirlineService(this.airline);
-        
+
         var account = (await this.web3.eth.getAccounts())[0];
         
         this.setState({
@@ -42,8 +43,16 @@ export class App extends Component {
         });
     }
 
+    async getFlights(){
+        let flights = await this.airlineService.getFlights();
+        this.setState({
+            flights
+        });
+    }
+
     async load() {
         this.getBalance();
+        this.getFlights();
     }
 
 
@@ -71,8 +80,13 @@ export class App extends Component {
             <div className="row">
                 <div className="col-sm">
                     <Panel title="Available flights">
-
-
+                        {/*
+                        {this.state.flights.map((flight, i) => {
+                            return <div key={i}>
+                                        <span>{flight.name} - cost: {this.toEther(flight.price)}</span>
+                                    </div>
+                        })}                       
+                        */}
                     </Panel>
                 </div>
                 <div className="col-sm">
