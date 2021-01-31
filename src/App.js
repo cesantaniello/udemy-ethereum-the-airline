@@ -51,8 +51,12 @@ export class App extends Component {
     }
 
     async buyFlight(flightIndex, flight){
-        console.log(flightIndex);
-        console.log(flight.name);
+
+        await this.airlineService.buyFlight(
+            flightIndex,
+            this.state.account,
+            flight.price
+        );
     }
 
     async load() {
